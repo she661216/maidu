@@ -1756,3 +1756,11 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .tpl-dropdown-menu-noti
         color: #259fdc; }
 
 /*# sourceMappingURL=app.css.map */
+
+.am-form label{
+  float: left;
+  width: 20%;
+}
+.am-form .am-form-field{
+ width: 80%!important;
+}

@@ -4,7 +4,7 @@ namespace app\store\model;
 
 use app\common\model\StoreUser as StoreUserModel;
 use think\Session;
-
+use think\Request;
 /**
  * 商家用户模型
  * Class StoreUser
@@ -58,6 +58,9 @@ class StoreUser extends StoreUserModel
         return self::get($store_user_id);
     }
 
+
+  
+    
     /**
      * 更新当前管理员信息
      * @param $data

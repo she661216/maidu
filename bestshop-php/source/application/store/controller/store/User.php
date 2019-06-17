@@ -4,7 +4,7 @@ namespace app\store\controller\store;
 
 use app\store\controller\Controller;
 use app\store\model\StoreUser as StoreUserModel;
-
+use think\Request;
 /**
  * 商户管理员控制器
  * Class StoreUser
@@ -27,5 +27,11 @@ class User extends Controller
             return $this->renderError($model->getError() ?: '更新失败');
         }
         return $this->fetch('renew', compact('model'));
+    }
+    public function tabel()
+    {
+        $model = new StoreUserModel;
+        $list = $model->getList();
+        return $this->fetch('tabel', compact('list'));
     }
 }

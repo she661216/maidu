@@ -71,16 +71,16 @@ return [
         ]
     ],
     'user' => [
-        'name' => '用户管理',
+        'name' => '前台用户管理',
         'icon' => 'icon-user',
         'index' => 'user/index',
     ],
-//    'marketing' => [
-//        'name' => '营销管理',
-//        'icon' => 'icon-marketing',
-//        'index' => 'marketing/index',
-//        'submenu' => [],
-//    ],
+    'storUser' => [
+        'name' => '后台用户管理',
+        'icon' => 'icon-marketing',
+        'index' => 'store.user/tabel',
+        'submenu' => [],
+    ],
     'wxapp' => [
         'name' => '小程序',
         'icon' => 'icon-wxapp',

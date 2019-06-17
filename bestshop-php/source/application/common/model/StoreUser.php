@@ -1,7 +1,7 @@
 <?php
 
 namespace app\common\model;
-
+use think\Request;
 /**
  * 商家用户模型
  * Class StoreUser
@@ -32,5 +32,12 @@ class StoreUser extends BaseModel
             'wxapp_id' => $wxapp_id,
         ]);
     }
+
+    public function getList()
+    {
+        $request = Request::instance();
+        return $this->paginate(15, false, ['query' => $request->request()]);
+    }
+
 
 }
