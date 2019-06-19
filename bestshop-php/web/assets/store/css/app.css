@@ -1760,6 +1760,8 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .tpl-dropdown-menu-noti
 .am-form label{
   float: left;
   width: 20%;
+  margin-bottom: 10px;
+    margin-left: 0!important; 
 }
 .am-form .am-form-field{
  width: 80%!important;

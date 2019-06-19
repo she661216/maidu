@@ -75,6 +75,11 @@ return [
         'icon' => 'icon-user',
         'index' => 'user/index',
     ],
+    'Coupon' => [
+        'name' => '优惠券管理' ,
+        'icon' => 'icon-user',
+        'index' => 'coupon/index',
+    ],
     'storUser' => [
         'name' => '后台用户管理',
         'icon' => 'icon-marketing',

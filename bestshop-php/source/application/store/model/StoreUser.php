@@ -59,7 +59,11 @@ class StoreUser extends StoreUserModel
     }
 
 
-  
+    public function getList()
+    {
+        $request = Request::instance();
+        return $this->order(['create_time' => 'desc'])->paginate(15, false, ['query' => $request->request()]);
+    }
     
     /**
      * 更新当前管理员信息

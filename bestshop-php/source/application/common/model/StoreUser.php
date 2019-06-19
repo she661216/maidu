@@ -11,14 +11,13 @@ class StoreUser extends BaseModel
 {
     protected $name = 'store_user';
 
-    /**
+ /**
      * 关联微信小程序表
      * @return \think\model\relation\BelongsTo
      */
     public function wxapp() {
         return $this->belongsTo('Wxapp');
     }
-
     /**
      * 新增默认商家用户信息
      * @param $wxapp_id
@@ -32,12 +31,10 @@ class StoreUser extends BaseModel
             'wxapp_id' => $wxapp_id,
         ]);
     }
-
-    public function getList()
+    public function remove()
     {
-        $request = Request::instance();
-        return $this->paginate(15, false, ['query' => $request->request()]);
+        return $this->delete();
     }
-
+  
 
 }
