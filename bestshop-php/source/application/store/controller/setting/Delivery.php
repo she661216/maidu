@@ -5,7 +5,7 @@ namespace app\store\controller\setting;
 use app\store\controller\Controller;
 use app\store\model\Region;
 use app\store\model\Delivery as DeliveryModel;
-
+use app\common\model\DeliveryRule as DeliveryRuleModel;
 /**
  * 配送设置
  * Class Delivery
@@ -20,9 +20,9 @@ class Delivery extends Controller
      */
     public function index()
     {
-        $model = new DeliveryModel;
-        $list = $model->getList();
-        return $this->fetch('index', compact('list'));
+        $model = new DeliveryRuleModel;
+        $detail = $model->getDetail();
+        return $this->fetch('index', compact('detail'));
     }
 
     /**
@@ -73,15 +73,15 @@ class Delivery extends Controller
      * @throws \think\exception\DbException
      * @throws \think\exception\PDOException
      */
-    public function edit($delivery_id)
+    public function edit()
     {
         // 模板详情
-        $model = DeliveryModel::detail($delivery_id);
-        if (!$this->request->isAjax()) {
-            // 获取所有地区
-            $regionData = json_encode(Region::getCacheTree());
-            return $this->fetch('edit', compact('regionData','model'));
-        }
+         $model =new DeliveryRuleModel;
+        // if (!$this->request->isAjax()) {
+        //     // 获取所有地区
+        //     $regionData = json_encode(Region::getCacheTree());
+        //     return $this->fetch('edit', compact('regionData','model'));
+        // }
         // 更新记录
         if ($model->edit($this->postData('delivery'))) {
             return $this->renderSuccess('更新成功', url('setting.delivery/index'));

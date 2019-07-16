@@ -66,5 +66,11 @@ class User extends BaseModel
     {
         return self::get($where, ['address', 'addressDefault']);
     }
+    public function update_state($user_id,$state)
+    {
+        return $this->where(['user_id'=>$user_id])->update([
+            'state' => $state
+        ]);;
+    }
 
 }

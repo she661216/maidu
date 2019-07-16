@@ -14,11 +14,12 @@
                                 <th>用户ID</th>
                                 <th>微信头像</th>
                                 <th>微信昵称</th>
-                                <th>性别</th>
-                                <th>国家</th>
-                                <th>省份</th>
-                                <th>城市</th>
+                                <th>地址</th>
+                                <th>余额（元）</th>
+                                <th>积分</th>
+                                <th>状态</th>
                                 <th>注册时间</th>
+                                <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -31,11 +32,17 @@
                                         </a>
                                     </td>
                                     <td class="am-text-middle"><?= $item['nickName'] ?></td>
-                                    <td class="am-text-middle"><?= $item['gender'] ?></td>
-                                    <td class="am-text-middle"><?= $item['country'] ?: '--' ?></td>
-                                    <td class="am-text-middle"><?= $item['province'] ?: '--' ?></td>
-                                    <td class="am-text-middle"><?= $item['city'] ?: '--' ?></td>
+                             
+                                    <td class="am-text-middle"><?= $item['province'].'-'.$item['city'] ?: '--' ?></td>
+                                    <td class="am-text-middle"><?= $item['amount'] ?></td>
+                                    <td class="am-text-middle"><?= $item['score'] ?></td>
+                                    <td class="am-text-middle">	  <?= ($item['state'] == '1')?'正常':'停用'?></td>
                                     <td class="am-text-middle"><?= $item['create_time'] ?></td>
+                                    <td class="am-text-middle">
+									<a href="javascript:;"  class="item-delete tpl-table-black-operation-del" data-state="<?= $item['state']==1?2:1 ?>" data-id="<?= $item['user_id'] ?>">
+								     	<i class="am-icon-trash"></i> <?= ($item['state'] == '1')?'停用':'启用'?>
+									</a>
+									</td>
                                 </tr>
                             <?php endforeach; else: ?>
                                 <tr>
@@ -58,6 +65,21 @@
 </div>
 <script>
     $(function () {
+	// 停用、启用元素
+    var url = "<?= url('user/update') ?>";
+            
+            $('.item-delete').click(function () {
+                var param = {};
+                param['user_id'] = $(this).attr('data-id');
+                param['state'] = $(this).attr('data-state');
+                layer.confirm('确定要停用/启用吗？', function (index) {
+                    $.post(url, param, function (result) {
+                        result.code === 1 ? $.show_success(result.msg, result.url)
+                            : $.show_error(result.msg);
+                    });
+                    layer.close(index);
+                });
+            });
 
     });
 </script>

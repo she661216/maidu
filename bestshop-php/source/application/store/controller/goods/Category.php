@@ -18,8 +18,9 @@ class Category extends Controller
      */
     public function index()
     {
+     
         $model = new CategoryModel;
-        $list = $model->getCacheTree();
+        $list = $model->getlist();
         return $this->fetch('index', compact('list'));
     }
 
@@ -40,23 +41,29 @@ class Category extends Controller
     }
 
     /**
-     * 添加商品分类
+     * 同步商品分类
      * @return array|mixed
      */
     public function add()
     {
-        $model = new CategoryModel;
-        if (!$this->request->isAjax()) {
-            // 获取所有地区
-            $list = $model->getCacheTree();
-            return $this->fetch('add', compact('list'));
+
+        $data = array('appId'=>'D623576AFE673FC7F01AD2A651741F90');
+        $res =  doRequest('https://area11-win.pospal.cn:443/pospal-api2/openapi/v1/productOpenApi/queryProductCategoryPages',$data,'103040383648534894');
+
+        $result = json_decode($res);
+        $list = $result->data->result;
+
+        if(!empty($list)){
+            $model = new CategoryModel;
+   
+            // 新增记录
+            if ($model->add_all($list)) {
+                return $this->renderSuccess('同步成功', url('goods.category/index'));
+            }
+            $error = $model->getError() ?: '同步失败';
+            return $this->renderError($error);
         }
-        // 新增记录
-        if ($model->add($this->postData('category'))) {
-            return $this->renderSuccess('添加成功', url('goods.category/index'));
-        }
-        $error = $model->getError() ?: '添加失败';
-        return $this->renderError($error);
+   
     }
 
     /**

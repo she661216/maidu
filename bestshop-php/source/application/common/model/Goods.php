@@ -14,6 +14,58 @@ class Goods extends BaseModel
     protected $name = 'goods';
     protected $append = ['goods_sales'];
 
+
+         /**
+     *同步商品分类
+     * @return mixed
+     */
+    public  function add_all($list)
+    {
+        $w = self::$wxapp_id;
+        $all = array();
+        $obj = array();
+        if(!empty($list)){
+      
+            foreach ($list as $v){
+                if(property_exists($v, 'attribute4')){
+                    $obj['attribute4'] = $v->attribute4;
+                }
+           
+                if(property_exists($v, 'attribute3')){
+                    $obj['attribute3'] = $v->attribute3;
+                }
+                if(property_exists($v, 'attribute2')){
+                    $obj['attribute2'] = $v->attribute2;
+                }
+                if(property_exists($v, 'attribute1')){
+                    $obj['attribute1'] = $v->attribute1;
+                }
+           
+                $obj['stock'] = $v->stock;
+                $obj['pinyin'] = $v->pinyin;
+                $obj['customerPrice'] = $v->customerPrice ;
+                $obj['description'] = $v->description ;
+                $obj['isCustomerDiscount'] = $v->isCustomerDiscount;
+                $obj['uid'] = $v->uid ;
+                $obj['categoryUid'] = $v->categoryUid;
+                $obj['name'] = $v->name;
+                $obj['barcode'] = $v->barcode ;
+                $obj['buyPrice'] = $v->buyPrice ;
+                $obj['sellPrice'] = $v->sellPrice;
+                $obj['sellPrice'] = $v->sellPrice;
+                $obj['wxapp_id'] = $w;
+        
+                array_push($all,$obj);
+            }
+   
+        $rest =    $this->where('goods_id>=1')->delete();
+               $res =  $this->saveAll($all);
+               return $res;
+        }
+    }
+
+
+
     /**
      * 计算显示销量 (初始销量 + 实际销量)
      * @param $value
@@ -136,38 +188,9 @@ class Goods extends BaseModel
      */
     public function getList($status = null, $category_id = 0, $search = '', $sortType = 'all', $sortPrice = false)
     {
-        // 筛选条件
-        $filter = [];
-        $category_id > 0 && $filter['category_id'] = $category_id;
-        $status > 0 && $filter['goods_status'] = $status;
-        !empty($search) && $filter['goods_name'] = ['like', '%' . trim($search) . '%'];
-
-        // 排序规则
-        $sort = [];
-        if ($sortType === 'all') {
-            $sort = ['goods_sort', 'goods_id' => 'desc'];
-        } elseif ($sortType === 'sales') {
-            $sort = ['goods_sales' => 'desc'];
-        } elseif ($sortType === 'price') {
-            $sort = $sortPrice ? ['goods_max_price' => 'desc'] : ['goods_min_price'];
-        }
-        // 商品表名称
-        $tableName = $this->getTable();
-        // 多规格商品 最高价与最低价
-        $GoodsSpec = new GoodsSpec;
-        $minPriceSql = $GoodsSpec->field(['MIN(goods_price)'])
-            ->where('goods_id', 'EXP', "= `$tableName`.`goods_id`")->buildSql();
-        $maxPriceSql = $GoodsSpec->field(['MAX(goods_price)'])
-            ->where('goods_id', 'EXP', "= `$tableName`.`goods_id`")->buildSql();
+     
         // 执行查询
-        $list = $this->field(['*', '(sales_initial + sales_actual) as goods_sales',
-            "$minPriceSql AS goods_min_price",
-            "$maxPriceSql AS goods_max_price"
-        ])->with(['category', 'image.file', 'spec'])
-            ->where('is_delete', '=', 0)
-            ->where($filter)
-            ->order($sort)
-            ->paginate(15, false, [
+        $list = $this->paginate(15, false, [
                 'query' => Request::instance()->request()
             ]);
         return $list;

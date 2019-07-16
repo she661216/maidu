@@ -10,10 +10,11 @@
                         <div class="am-form-group">
                             <div class="am-btn-toolbar">
                                 <div class="am-btn-group am-btn-group-xs">
-                                    <a class="am-btn am-btn-default am-btn-success am-radius"
-                                       href="<?= url('goods/add') ?>">
-                                        <span class="am-icon-plus"></span> 新增
-                                    </a>
+                            
+                                    <div class="am-btn am-btn-default am-btn-success am-radius"
+                                       >
+                                        <span class="am-icon-plus"></span> 同步所有商品
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -23,53 +24,30 @@
                          tpl-table-black am-text-nowrap">
                             <thead>
                             <tr>
-                                <th>商品ID</th>
-                                <th>商品图片</th>
+                                <th>序号</th>
                                 <th>商品名称</th>
-                                <th>商品分类</th>
-                                <th>实际销量</th>
-                                <th>商品排序</th>
-                                <th>商品状态</th>
-                                <th>添加时间</th>
-                                <th>操作</th>
+                                <th>商品销售价格</th>
+                                <th>商品购买价格</th>
+                                <th>商品库存</th>
+                                <th>分类ID</th>
+                                <th>同步时间</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <?php if (!$list->isEmpty()): foreach ($list as $item): ?>
+                            <?php if (!$list->isEmpty()): foreach ($list as $k => $item): ?>
                                 <tr>
-                                    <td class="am-text-middle"><?= $item['goods_id'] ?></td>
+                                    <td class="am-text-middle"><?= $item['goods_id']  ?></td>
                                     <td class="am-text-middle">
-                                        <a href="<?= $item['image'][0]['file_path'] ?>"
-                                           title="点击查看大图" target="_blank">
-                                            <img src="<?= $item['image'][0]['file_path'] ?>"
-                                                 width="50" height="50" alt="商品图片">
-                                        </a>
+                                    <?=$item['name']?>
                                     </td>
                                     <td class="am-text-middle">
-                                        <p class="item-title"><?= $item['goods_name'] ?></p>
+                                        <p class="item-title"><?= $item['sellPrice'] ?></p>
                                     </td>
-                                    <td class="am-text-middle"><?= $item['category']['name'] ?></td>
-                                    <td class="am-text-middle"><?= $item['sales_actual'] ?></td>
-                                    <td class="am-text-middle"><?= $item['goods_sort'] ?></td>
-                                    <td class="am-text-middle">
-                                            <span class="<?= $item['goods_status']['value'] == 10 ? 'x-color-green'
-                                                : 'x-color-red' ?>">
-                                            <?= $item['goods_status']['text'] ?>
-                                            </span>
-                                    </td>
+                                    <td class="am-text-middle"><?= $item['buyPrice'] ?></td>
+                                    <td class="am-text-middle"><?= $item['stock'] ?></td>
+                                    <td class="am-text-middle"><?= $item['categoryUid'] ?></td>                               
                                     <td class="am-text-middle"><?= $item['create_time'] ?></td>
-                                    <td class="am-text-middle">
-                                        <div class="tpl-table-black-operation">
-                                            <a href="<?= url('goods/edit',
-                                                ['goods_id' => $item['goods_id']]) ?>">
-                                                <i class="am-icon-pencil"></i> 编辑
-                                            </a>
-                                            <a href="javascript:;" class="item-delete tpl-table-black-operation-del"
-                                               data-id="<?= $item['goods_id'] ?>">
-                                                <i class="am-icon-trash"></i> 删除
-                                            </a>
-                                        </div>
-                                    </td>
+                                  
                                 </tr>
                             <?php endforeach; else: ?>
                                 <tr>
@@ -92,10 +70,18 @@
 </div>
 <script>
     $(function () {
+        var url = "<?= url('goods/add') ?>";
 
-        // 删除元素
-        var url = "<?= url('goods/delete') ?>";
-        $('.item-delete').delete('goods_id', url);
+            $('.am-btn-default').click(function () {
+                    var param = {};
+                    layer.confirm('确定要同步吗？', function (index) {
+                        $.post(url, {}, function (result) {
+                            result.code === 1 ? $.show_success(result.msg, result.url)
+                                : $.show_error(result.msg);
+                        });
+                        layer.close(index);
+                    });
+                });
 
     });
 </script>

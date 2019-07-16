@@ -7,9 +7,9 @@ use think\Request;
  * Class StoreUser
  * @package app\common\model
  */
-class Coupon extends BaseModel
+class Vouchers extends BaseModel
 {
-    protected $name = 'coupon';
+    protected $name = 'vouchers';
 
     public function remove()
     {
@@ -20,25 +20,25 @@ class Coupon extends BaseModel
     {
     
         $request = Request::instance();
-        return $this->order(['create_time' => 'desc'])->field("count(*) as sum,count(user_name) as get_sum,coupon_name,amount,level,state,over_time,remark,coupon_id")->where('state','neq','4')->group('coupon_name')
+        return $this->order(['create_time' => 'desc'])->where('state','neq','4')
             ->paginate(15, false, ['query' => $request->request()]);
     }
   
-    public function add_coupon($data)
+    public function add_vouchers($data)
     {
       
         if(!is_numeric( $data['number'])||strpos( $data['number'],".")!==false){
             return $this->renderError('请输入正确的数量');
         }
-        $data['over_time']  = strtotime($data['over_time']);
         $data['wxapp_id']  = self::$wxapp_id;
         
         $n =  $data['number'];
         unset($data['number']);
         
-        for ($x=0; $x < $n; $x++) {
+        for ($x=0; $x <= $n; $x++) {
             $all[] = $data;
-           
+            $key = time();
+            $all[$x]['key']  = chr(rand(65, 90)).chr(rand(65, 90)).chr(rand(65, 90)).$key.mt_rand(10,99);
           } 
         $res =  $this->saveAll($all);
         return $res;

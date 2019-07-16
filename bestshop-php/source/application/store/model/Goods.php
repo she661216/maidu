@@ -43,6 +43,10 @@ class Goods extends GoodsModel
         return false;
     }
 
+
+
+    
+
     /**
      * 添加商品图片
      * @param $images

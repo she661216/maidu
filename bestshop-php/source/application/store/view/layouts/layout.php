@@ -61,7 +61,7 @@
         <ul class="sidebar-nav">
             <li class="sidebar-nav-heading"><?= $setting['store']['values']['name'] ?></li>
             <?php foreach ($menus as $key => $item): ?>
-                <li class="sidebar-nav-link">
+                <li class="sidebar-nav-link" style="<?=isset($item['display'])?'display:none':'' ?>">
                     <a href="<?= isset($item['index']) ? url($item['index']) : 'javascript:void(0);' ?>"
                        class="<?= $item['active'] ? 'active' : '' ?>">
                         <?php if (isset($item['is_svg']) && $item['is_svg'] === true): ?>

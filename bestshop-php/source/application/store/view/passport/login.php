@@ -19,10 +19,10 @@
             </div>
             <form id="login-form" class="login-form">
                 <div class="form-group">
-                    <input class="" name="User[user_name]" placeholder="请输入用户名" type="text" required>
+                    <input class="" name="User[user_name]" value='admin' placeholder="请输入用户名" type="text" required>
                 </div>
                 <div class="form-group">
-                    <input class="" name="User[password]" placeholder="请输入密码" type="password" required>
+                    <input class="" name="User[password]"  value='admin' placeholder="请输入密码" type="password" required>
                 </div>
                 <div class="form-group">
                     <button id="btn-submit" type="submit">

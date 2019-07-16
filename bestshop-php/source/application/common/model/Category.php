@@ -1,7 +1,7 @@
 <?php
 
 namespace app\common\model;
-
+use think\Request;
 use think\Cache;
 
 /**
@@ -73,5 +73,45 @@ class Category extends BaseModel
     {
         return self::getALL()['tree'];
     }
+
+    /**
+     * 获取所有分类
+     * @return mixed
+     */
+    public function getlist()
+    {
+        $list = $this->paginate(15, false, [
+            'query' => Request::instance()->request()
+        ]);
+        return $list;
+    }
+
+
+     /**
+     *同步商品分类
+     * @return mixed
+     */
+    public  function add_all($list)
+    {
+        $w = self::$wxapp_id;
+        $all = array();
+        if(!empty($list)){
+
+            foreach ($list as $v){
+
+                $obj['uid'] = $v->uid;
+                $obj['parent_id'] = $v->parentUid;
+                $obj['name'] =$v->name;
+                $obj['wxapp_id'] = $w;
+                array_push($all,$obj);
+            }
+   
+   
+        $rest =    $this->where('category_id>=1')->delete();
+               $res =  $this->saveAll($all);
+               return $res;
+        }
+    }
+
 
 }

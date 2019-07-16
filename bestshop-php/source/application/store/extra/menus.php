@@ -71,112 +71,175 @@ return [
         ]
     ],
     'user' => [
-        'name' => '前台用户管理',
+        'name' => '会员管理',
         'icon' => 'icon-user',
         'index' => 'user/index',
     ],
     'Coupon' => [
         'name' => '优惠券管理' ,
-        'icon' => 'icon-user',
+        'icon' => 'icon-rise',
         'index' => 'coupon/index',
     ],
+    'Vouchers' => [
+        'name' => '礼物卡管理' ,
+        'icon' => 'icon-star',
+        'index' => 'vouchers/index',
+    ],
     'storUser' => [
-        'name' => '后台用户管理',
+        'name' => '后台账户管理',
         'icon' => 'icon-marketing',
         'index' => 'store.user/tabel',
         'submenu' => [],
     ],
+      'games' => [
+         'name' => '活动管理',
+         'icon' => 'icon-wxapp',
+         'color' => '#36b313',
+         'index' =>'games.games_ms/index',
+         'submenu' => [
+             [
+                 'name' => '秒杀',
+                 'index' => 'games.games_ms/index',
+             ],
+             [
+                'name' => '限时优惠',
+                'index' => 'games.games_yh/index',
+            ],
+          
+            [
+                'name' => '砍价',
+                'index' => 'games.games_kj/index',
+            ],
+          
+            [
+                'name' => '组合特惠',
+                'index' => 'games.games_zh/index',
+            ]
+           
+         ],
+     ], 
+//     'plugins' => [
+//         'name' => '应用中心',
+//         'icon' => 'icon-application',
+//         'is_svg' => true,   // 多色图标
+// //        'index' => 'plugins/index',
+//     ],
     'wxapp' => [
-        'name' => '小程序',
-        'icon' => 'icon-wxapp',
-        'color' => '#36b313',
-        'index' => 'wxapp/setting',
+        'name' => '设置',
+        'display'=>'none',
+        'icon' => 'icon-setting',
+        'index' => 'wxapp.page/home',
         'submenu' => [
+            // [
+            //     'name' => '商城设置',
+            //     'index' => 'setting/store',
+            // ],
             [
-                'name' => '小程序设置',
-                'index' => 'wxapp/setting',
+                'name' => '轮播图设计',
+                'index' => 'wxapp.page/home'
             ],
             [
-                'name' => '页面管理',
-                'active' => true,
-                'submenu' => [
-                    [
-                        'name' => '首页设计',
-                        'index' => 'wxapp.page/home'
-                    ],
-                    [
-                        'name' => '页面链接',
-                        'index' => 'wxapp.page/links'
-                    ],
-                ]
+                'name' => '砍价设置',
+                'index' => 'setting.kanjia/index',
             ],
             [
-                'name' => '帮助中心',
-                'index' => 'wxapp.help/index',
-                'urls' => [
-                    'wxapp.help/index',
-                    'wxapp.help/add',
-                    'wxapp.help/edit',
-                    'wxapp.help/delete'
-                ]
+                'name' => '充值优惠设置',
+                'index' => 'setting.kanjia/recharge',
             ],
-            [
-                'name' => '导航设置',
-                'index' => 'wxapp/tabbar'
-            ],
-
+             [
+                 'name' => '运费设置',
+                 'index' => 'setting.delivery/index',
+                'uris' => [
+                 'setting.delivery/index',
+                 'setting.delivery/add',
+                     'setting.delivery/edit',
+                 ],
+             ],
+            // [
+            //     'name' => '交易设置',
+            //     'index' => 'setting/trade',
+            // ],
+           
+            // [
+            //     'name' => '短信通知',
+            //     'index' => 'setting/sms'
+            // ],
+            // [
+            //     'name' => '上传设置',
+            //     'index' => 'setting/storage',
+            // ],
+            // [
+            //     'name' => '其他',
+            //     'active' => true,
+            //     'submenu' => [
+            //         [
+            //             'name' => '清理缓存',
+            //             'index' => 'setting.cache/clear'
+            //         ],
+            //         [
+            //             'name' => '环境检测',
+            //             'index' => 'setting.science/index'
+            //         ],
+            //     ]
+            // ]
         ],
-    ],
-    'plugins' => [
-        'name' => '应用中心',
-        'icon' => 'icon-application',
-        'is_svg' => true,   // 多色图标
-//        'index' => 'plugins/index',
     ],
     'setting' => [
         'name' => '设置',
         'icon' => 'icon-setting',
-        'index' => 'setting/store',
+        'index' => 'wxapp.page/home',
         'submenu' => [
+            // [
+            //     'name' => '商城设置',
+            //     'index' => 'setting/store',
+            // ],
             [
-                'name' => '商城设置',
-                'index' => 'setting/store',
+                'name' => '轮播图设计',
+                'index' => 'wxapp.page/home'
             ],
             [
-                'name' => '交易设置',
-                'index' => 'setting/trade',
+                'name' => '砍价设置',
+                'index' => 'setting.kanjia/index',
             ],
             [
-                'name' => '配送设置',
-                'index' => 'setting.delivery/index',
-                'uris' => [
-                    'setting.delivery/index',
-                    'setting.delivery/add',
-                    'setting.delivery/edit',
-                ],
+                'name' => '充值优惠设置',
+                'index' => 'setting.kanjia/recharge',
             ],
-            [
-                'name' => '短信通知',
-                'index' => 'setting/sms'
-            ],
-            [
-                'name' => '上传设置',
-                'index' => 'setting/storage',
-            ],
-            [
-                'name' => '其他',
-                'active' => true,
-                'submenu' => [
-                    [
-                        'name' => '清理缓存',
-                        'index' => 'setting.cache/clear'
-                    ],
-                    [
-                        'name' => '环境检测',
-                        'index' => 'setting.science/index'
-                    ],
-                ]
-            ]
+             [
+                 'name' => '运费设置',
+                 'index' => 'setting.delivery/index',
+                 'uris' => [
+                     'setting.delivery/index',
+                     'setting.delivery/add',
+                     'setting.delivery/edit',
+                 ],
+             ],
+            // [
+            //     'name' => '交易设置',
+            //     'index' => 'setting/trade',
+            // ],
+            // [
+            //     'name' => '短信通知',
+            //     'index' => 'setting/sms'
+            // ],
+            // [
+            //     'name' => '上传设置',
+            //     'index' => 'setting/storage',
+            // ],
+            // [
+            //     'name' => '其他',
+            //     'active' => true,
+            //     'submenu' => [
+            //         [
+            //             'name' => '清理缓存',
+            //             'index' => 'setting.cache/clear'
+            //         ],
+            //         [
+            //             'name' => '环境检测',
+            //             'index' => 'setting.science/index'
+            //         ],
+            //     ]
+            // ]
         ],
     ],
 ];

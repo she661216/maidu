@@ -30,20 +30,33 @@ class Goods extends Controller
      * @return array|mixed
      */
     public function add()
-    {
-        if (!$this->request->isAjax()) {
-            // 商品分类
-            $catgory = Category::getCacheTree();
-            // 配送模板
-            $delivery = Delivery::getAll();
-            return $this->fetch('add', compact('catgory', 'delivery'));
+    {  
+        $data = array('appId'=>'D623576AFE673FC7F01AD2A651741F90');
+        $res =  doRequest('https://area11-win.pospal.cn:443/pospal-api2/openapi/v1/productOpenApi/queryProductPages',$data,'103040383648534894');
+
+        $result = json_decode($res);
+        $list = $result->data->result;
+        $postBackParameter = $result->data->postBackParameter;
+       
+        if($result->data->pageSize >= 100){
+            $data['postBackParameter'] =  array('parameterType'=>$postBackParameter->parameterType,'parameterValue'=>$postBackParameter->parameterValue);
+            $res2 =  doRequest('https://area11-win.pospal.cn:443/pospal-api2/openapi/v1/productOpenApi/queryProductPages',$data,'103040383648534894');
+            $result2 = json_decode($res2);
+            $list2 = $result2->data->result;
         }
-        $model = new GoodsModel;
-        if ($model->add($this->postData('goods'))) {
-            return $this->renderSuccess('添加成功', url('goods/index'));
+  
+         $list =   array_merge($list,$list2);
+
+        if(!empty($list)){
+            $model = new GoodsModel;
+   
+            // 新增记录
+            if ($model->add_all($list)) {
+                return $this->renderSuccess('同步成功', url('goods/index'));
+            }
+            $error = $model->getError() ?: '同步失败';
+            return $this->renderError($error);
         }
-        $error = $model->getError() ?: '添加失败';
-        return $this->renderError($error);
     }
 
     /**
